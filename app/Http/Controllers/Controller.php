@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\Validator;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
