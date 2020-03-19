@@ -16,6 +16,10 @@ class MainController extends Controller
     {
         $this->validate($request, ['json' => 'required']);
         $json = json_decode($request->input('json'), true);
+        if ($json == null || !array_key_exists('koordinatori', $json) || !array_key_exists('polozky', $json) || empty($json['koordinatori']) || empty($json['polozky'])) return redirect('/');
+        foreach ($json['polozky'] as $item) {
+            if ($item == null || !array_key_exists('organizace', $item) || !array_key_exists('polozka', $item) || !array_key_exists('mnozstvi', $item) || !array_key_exists('email', $item) || empty($item['organizace']) || empty($item['polozka']) || empty($item['mnozstvi']) || empty($item['email'])) return redirect('/');
+        };
         return view('regions', ['json' => $json]);
     }
 
