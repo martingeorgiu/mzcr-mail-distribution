@@ -5,7 +5,7 @@
 <form method="POST" action="/upload-json">
 	<div class="form-group">
 		<label for="json">Vložte JSON kód:</label>
-		<textarea name="json" class="form-control" id="json" rows="10" required></textarea>
+		<textarea name="json" class="form-control" id="json" rows="20" required></textarea>
 	</div>
 	<button type="submit" class="btn btn-primary">Pokračovat</button>
 </form>

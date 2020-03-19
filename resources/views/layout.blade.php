@@ -11,7 +11,7 @@
 
 <body>
 	<div class="container-md" style="margin-top:2rem;margin-bottom:4rem;">
-		<h1>MZČR - Distribuce</h1>
+		<h1><a href="/">MZČR - Distribuce</a></h1>
 		@yield('content')
 	</div>
 </body>

@@ -28,24 +28,27 @@ class MainController extends Controller
         $this->validate($request, [
             'json' => 'required',
             'subjectRegions' => 'required',
+            'topBodyRegions' => 'required',
+            'bottomBodyRegions' => 'required',
+
         ]);
         $json = json_decode($request->input('json'), true);
         $subject = $request->input('subjectRegions');
+        $topBodyRegions = nl2br($request->input('topBodyRegions'));
+        $bottomBodyRegions = nl2br($request->input('bottomBodyRegions'));
+
         $sortedJson = [];
 
         if ($request->input('send')) {
             $to = implode(',', $json['koordinatori']);
             $headers = 'MIME-Version: 1.0' . '\r\n' . 'Content-type: text/html; charset=UTF-8' . '\r\n' . 'Bcc: distribuce@mzcr.cz';
 
-            $message = '
-            <p>Vážení,</p>
-            <p>z rozhodnutí Vlády ČR budou pro KRAJ dne XX. XX. 2020 rozvezeny ochranné pomůcky, dle níže uvedeného rozpisu:</p>
-
-                <table class="table table-striped">
+            $message = $topBodyRegions . '
+                <table>
                         <thead>
-                            <th scope="col">Příjemce</th>
-                            <th scope="col">Položka</th>
-                            <th scope="col">Množství</th>
+                            <th>Příjemce</th>
+                            <th>Položka</th>
+                            <th>Množství</th>
                         </thead>
                         <tbody>';
             foreach ($json['polozky'] as $item) {
@@ -55,17 +58,9 @@ class MainController extends Controller
 					<td>' . $item['mnozstvi'] . '</td>
 				</tr>';
             }
-
             $message .= '</tbody>
                 </table>
-
-            <p>Přímořízené organizace státu Vás budou kontaktovat stran vyzvednutí materiálu z odběrového místa. <br>
-            Hodnoty jsou přibližné a mohou se lišit dle konkrétní velikosti balení. Prosím o potvrzení doručení zásilky a zaslání scanu dodacího listu na adresu <a href:"mailto:distribuce@mzcr.cz">distribuce@mzcr.cz</a>.</p>
-
-            <p>Moc děkuji za spolupráci.<br>
-            S pozdravem<br>
-            Distribuční tým OOP MZ ČR</p>
-            ';
+            ' . $bottomBodyRegions;
 
             mail($to, $subject, $message, $headers);
         }
@@ -97,20 +92,22 @@ class MainController extends Controller
             'json' => 'required',
             'step' => 'required',
             'subjectOrganization' => 'required',
+            'topBodyRegions' => 'required',
+            'bottomBodyRegions' => 'required',
         ]);
+        $json = json_decode($request->input('json'), true);
         $step = $request->input('step');
         $subject = $request->input('subjectOrganization');
-        $json = json_decode($request->input('json'), true);
+        $topBodyRegions = nl2br($request->input('topBodyRegions'));
+        $bottomBodyRegions = nl2br($request->input('bottomBodyRegions'));
+
 
 
         if ($request->input('send')) {
             $to = array_keys($json)[$step];
             $headers = 'MIME-Version: 1.0' . '\r\n' . 'Content-type: text/html; charset=UTF-8' . '\r\n' . 'Bcc: distribuce@mzcr.cz';
 
-            $message = '
-            <p>Vážení,</p>
-            <p>z rozhodnutí Vlády ČR budou pro KRAJ dne XX. XX. 2020 rozvezeny ochranné pomůcky. Počet OOP pro Vaší organizaci nejdete v níže uvedeném rozpisu:</p>
-
+            $message = $topBodyRegions . '
                 <table class="table table-striped">
                         <thead>
                             <th scope="col">Položka</th>
@@ -123,17 +120,9 @@ class MainController extends Controller
 					<td>' . $item['amount'] . '</td>
 				</tr>';
             }
-
             $message .= '</tbody>
                 </table>
-
-            <p>Stran vyzvednutí zásilky prosím kontaktujte odběrové místo Vašeho kraje: JMÉNO, ČÍSLO, MAIL. Prosím o potvrzení doručení zásilky a zaslání scanu dodacího listu na adresu <a href:"mailto:distribuce@mzcr.cz">distribuce@mzcr.cz</a>.<br>
-            Krajský koordinátor a odběrové místo byli o alokaci OOP pro Vaši instituci informováni.</p>
-
-            <p>Moc děkuji za spolupráci.<br>
-            S pozdravem<br>
-            Distribuční tým OOP MZ ČR</p>
-            ';
+            ' . $bottomBodyRegions;
             mail($to, $subject, $message, $headers);
         }
 

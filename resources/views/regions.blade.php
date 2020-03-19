@@ -12,12 +12,16 @@
 <form method="POST" action="/send-regions">
 	<h4>Předmět</h4>
 	<div class="form-group">
-		<input name="subjectRegions" type="text" class="form-control" id="subjectRegions" value="Distribuce" required>
+		<input name="subjectRegions" type="text" class="form-control" id="subjectRegions"
+			value="KRAJ: Distribuce OOP dne XX. XX. 2020" required>
 	</div>
 	<h4>Tělo e-mailu:</h4>
 	<div class="form-group">
-		<textarea name="topBodyRegions" class="form-control" id="topBodyRegions" rows="3"
-			placeholder="vrchní část textu"></textarea>
+		<textarea name="topBodyRegions" class="form-control" id="topBodyRegions" rows="5"
+			placeholder="vrchní část textu" required>Vážení,
+
+z rozhodnutí Vlády ČR budou pro KRAJ dne XX. XX. 2020 rozvezeny ochranné pomůcky, dle níže uvedeného rozpisu:
+		</textarea>
 	</div>
 	<div class="form-group">
 		<table class="table table-striped">
@@ -38,8 +42,16 @@
 		</table>
 	</div>
 	<div class="form-group">
-		<textarea name="bottomBodyRegions" class="form-control" id="bottomBodyRegions" rows="3"
-			placeholder="spodní část textu"></textarea>
+		<textarea name="bottomBodyRegions" class="form-control" id="bottomBodyRegions" rows="10"
+			placeholder="spodní část textu" required>
+Přímořízené organizace státu Vás budou kontaktovat stran vyzvednutí materiálu z odběrového místa.
+Hodnoty jsou přibližné a mohou se lišit dle konkrétní velikosti balení. Prosím o potvrzení doručení zásilky a
+zaslání scanu dodacího listu na adresu distribuce@mzcr.cz.
+
+Moc děkuji za spolupráci.
+S pozdravem
+Distribuční tým OOP MZ ČR
+			</textarea>
 	</div>
 	<input type="hidden" name="json" value="{{json_encode($json)}}">
 	<div class="form-group clearfix">
