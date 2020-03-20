@@ -1,4 +1,4 @@
-# MZČR DISTRIBUCE MAILŮ
+# MZČR Distribuce mailů
 
 Jednoduchá Lumen aplikace na rozesílání mailů krajům a organizacím.
 
