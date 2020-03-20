@@ -16,7 +16,7 @@ class MainController extends Controller
     {
         $this->validate($request, ['json' => 'required']);
         $json = json_decode($request->input('json'), true);
-        if ($json == null || !array_key_exists('koordinatori', $json) || !array_key_exists('polozky', $json) || empty($json['koordinatori']) || empty($json['polozky'])) return redirect('/');
+        if ($json == null || !array_key_exists('koordinatori', $json) || !array_key_exists('kraj', $json) ||  !array_key_exists('polozky', $json) || empty($json['koordinatori']) ||  empty($json['kraj']) || empty($json['polozky'])) return redirect('/');
         foreach ($json['polozky'] as $item) {
             if ($item == null || !array_key_exists('organizace', $item) || !array_key_exists('polozka', $item) || !array_key_exists('mnozstvi', $item) || !array_key_exists('email', $item) || empty($item['organizace']) || empty($item['polozka']) || empty($item['mnozstvi']) || empty($item['email'])) return redirect('/');
         };
@@ -82,6 +82,7 @@ class MainController extends Controller
         return view('organizations', [
             'json' => $sortedJson,
             'step' => 0,
+            'region' => $json['kraj'],
             'key' => array_keys($sortedJson)[0],
         ]);
     }
@@ -91,12 +92,14 @@ class MainController extends Controller
         $this->validate($request, [
             'json' => 'required',
             'step' => 'required',
+            'region' => 'required',
             'subjectOrganization' => 'required',
             'topBodyRegions' => 'required',
             'bottomBodyRegions' => 'required',
         ]);
         $json = json_decode($request->input('json'), true);
         $step = $request->input('step');
+        $region = $request->input('region');
         $subject = $request->input('subjectOrganization');
         $topBodyRegions = nl2br($request->input('topBodyRegions'));
         $bottomBodyRegions = nl2br($request->input('bottomBodyRegions'));
@@ -134,6 +137,7 @@ class MainController extends Controller
         return view('organizations', [
             'json' => $json,
             'step' => $step,
+            'region' => $region,
             'key' => array_keys($json)[$step],
         ]);
     }

@@ -17,7 +17,7 @@
 		<textarea name="topBodyRegions" class="form-control" id="topBodyRegions" rows="5"
 			placeholder="vrchní část textu" required>Vážení,
 
-z rozhodnutí Vlády ČR budou pro KRAJ dne XX. XX. 2020 rozvezeny ochranné pomůcky. Počet OOP pro Vaší organizaci nejdete v níže uvedeném rozpisu:
+z rozhodnutí Vlády ČR budou pro {{$region}} dne XX. XX. 2020 rozvezeny ochranné pomůcky. Počet OOP pro Vaší organizaci nejdete v níže uvedeném rozpisu:
 		</textarea>
 	</div>
 	<div class="form-group">
@@ -50,6 +50,7 @@ Distribuční tým OOP MZ ČR
 	</div>
 	<input type="hidden" name="json" value="{{json_encode($json)}}">
 	<input type="hidden" name="step" value="{{$step}}">
+	<input type="hidden" name="region" value="{{$region}}">
 	<div class="form-group clearfix">
 		<input type="submit" name="send" class="btn btn-primary float-left" value="Odeslat">
 		<input type="submit" name="skip" class="btn btn-secondary float-right" value="Přeskočit">

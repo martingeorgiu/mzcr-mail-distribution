@@ -13,14 +13,14 @@
 	<h4>Předmět</h4>
 	<div class="form-group">
 		<input name="subjectRegions" type="text" class="form-control" id="subjectRegions"
-			value="KRAJ: Distribuce OOP dne XX. XX. 2020" required>
+			value="{{$json['kraj']}}: Distribuce OOP dne XX. XX. 2020" required>
 	</div>
 	<h4>Tělo e-mailu:</h4>
 	<div class="form-group">
 		<textarea name="topBodyRegions" class="form-control" id="topBodyRegions" rows="5"
 			placeholder="vrchní část textu" required>Vážení,
 
-z rozhodnutí Vlády ČR budou pro KRAJ dne XX. XX. 2020 rozvezeny ochranné pomůcky, dle níže uvedeného rozpisu:
+z rozhodnutí Vlády ČR budou pro {{$json['kraj']}} dne XX. XX. 2020 rozvezeny ochranné pomůcky, dle níže uvedeného rozpisu:
 		</textarea>
 	</div>
 	<div class="form-group">
