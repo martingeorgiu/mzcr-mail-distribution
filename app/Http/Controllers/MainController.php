@@ -46,7 +46,7 @@ class MainController extends Controller
             $to = implode(',', $json['koordinatori']);
             $headers = 'MIME-Version: 1.0' . '\r\n' . 'Content-type: text/html; charset=UTF-8' . '\r\n' . 'Bcc: distribuce@mzcr.cz';
 
-            $message = $topBodyRegions . '
+            $message = '<p>' . $topBodyRegions . '</p>
                 <table>
                         <thead>
                             <th>Příjemce</th>
@@ -63,7 +63,7 @@ class MainController extends Controller
             }
             $message .= '</tbody>
                 </table>
-            ' . $bottomBodyRegions;
+           <p> ' . $bottomBodyRegions . '</p>';
 
             mail($to, $subject, $message, $headers);
         }
@@ -114,7 +114,7 @@ class MainController extends Controller
             $to = array_keys($json)[$step];
             $headers = 'MIME-Version: 1.0' . '\r\n' . 'Content-type: text/html; charset=UTF-8' . '\r\n' . 'Bcc: distribuce@mzcr.cz';
 
-            $message = $topBodyRegions . '
+            $message = '<p>' . $topBodyRegions . '</p>
                 <table class="table table-striped">
                         <thead>
                             <th scope="col">Položka</th>
@@ -129,7 +129,7 @@ class MainController extends Controller
             }
             $message .= '</tbody>
                 </table>
-            ' . $bottomBodyRegions;
+            <p>' . $bottomBodyRegions . '</p>';
             mail($to, $subject, $message, $headers);
         }
 
