@@ -22,7 +22,7 @@ class MainController extends Controller
         };
         return view('regions', [
             'json' => $json,
-            'date' => date('j. n. Y', time() + 86400),
+            'date' => date('j. n. Y'),
         ]);
     }
 
@@ -87,7 +87,7 @@ class MainController extends Controller
             'step' => 0,
             'region' => $json['kraj'],
             'key' => array_keys($sortedJson)[0],
-            'date' => date('j. n. Y', time() + 86400),
+            'date' => date('j. n. Y'),
         ]);
     }
 
@@ -143,7 +143,7 @@ class MainController extends Controller
             'step' => $step,
             'region' => $region,
             'key' => array_keys($json)[$step],
-            'date' => date('j. n. Y', time() + 86400),
+            'date' => date('j. n. Y'),
         ]);
     }
     public function finished()
