@@ -20,7 +20,10 @@ class MainController extends Controller
         foreach ($json['polozky'] as $item) {
             if ($item == null || !array_key_exists('organizace', $item) || !array_key_exists('polozka', $item) || !array_key_exists('mnozstvi', $item) || !array_key_exists('email', $item) || empty($item['organizace']) || empty($item['polozka']) || empty($item['mnozstvi']) || empty($item['email'])) return redirect('/');
         };
-        return view('regions', ['json' => $json]);
+        return view('regions', [
+            'json' => $json,
+            'date' => date('j. n. Y', time() + 86400),
+        ]);
     }
 
     public function sendRegions(Request $request)
@@ -84,6 +87,7 @@ class MainController extends Controller
             'step' => 0,
             'region' => $json['kraj'],
             'key' => array_keys($sortedJson)[0],
+            'date' => date('j. n. Y', time() + 86400),
         ]);
     }
 
@@ -139,6 +143,7 @@ class MainController extends Controller
             'step' => $step,
             'region' => $region,
             'key' => array_keys($json)[$step],
+            'date' => date('j. n. Y', time() + 86400),
         ]);
     }
     public function finished()
