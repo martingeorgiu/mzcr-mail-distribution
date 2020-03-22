@@ -44,10 +44,15 @@ class MainController extends Controller
 
         if ($request->input('send')) {
             $to = implode(',', $json['koordinatori']);
-            $headers = 'MIME-Version: 1.0' . '\r\n' . 'Content-type: text/html; charset=UTF-8' . '\r\n' . 'Bcc: distribuce@mzcr.cz';
+            $headers =
+                "MIME-Version: 1.0\r\n" .
+                "Content-Type: text/html; charset=UTF-8\r\n" .
+                "Content-Transfer-Encoding: 8bit\r\n" .
+                "Bcc: distribuce@mzcr.cz\r\n" .
+                'From: distribuce@mzcr.cz';
 
             $message = '<p>' . $topBodyRegions . '</p>
-                <table>
+                <table class="table table-striped" cellspacing="0" border="1">
                         <thead>
                             <th>Příjemce</th>
                             <th>Položka</th>
@@ -65,7 +70,7 @@ class MainController extends Controller
                 </table>
            <p> ' . $bottomBodyRegions . '</p>';
 
-            mail($to, $subject, $message, $headers);
+            mail($to, $subject, $message, $headers, '-f distribuce@mzcr.cz');
         }
 
         foreach ($json['polozky'] as $item) {
@@ -112,10 +117,15 @@ class MainController extends Controller
 
         if ($request->input('send')) {
             $to = array_keys($json)[$step];
-            $headers = 'MIME-Version: 1.0' . '\r\n' . 'Content-type: text/html; charset=UTF-8' . '\r\n' . 'Bcc: distribuce@mzcr.cz';
+            $headers =
+                "MIME-Version: 1.0\r\n" .
+                "Content-Type: text/html; charset=UTF-8\r\n" .
+                "Content-Transfer-Encoding: 8bit\r\n" .
+                "Bcc: distribuce@mzcr.cz\r\n" .
+                'From: distribuce@mzcr.cz';
 
             $message = '<p>' . $topBodyRegions . '</p>
-                <table class="table table-striped">
+                <table class="table table-striped" cellspacing="0" border="1">
                         <thead>
                             <th scope="col">Položka</th>
                             <th scope="col">Množství</th>
@@ -130,7 +140,7 @@ class MainController extends Controller
             $message .= '</tbody>
                 </table>
             <p>' . $bottomBodyRegions . '</p>';
-            mail($to, $subject, $message, $headers);
+            mail($to, $subject, $message, $headers, '-f distribuce@mzcr.cz');
         }
 
         $step++;
