@@ -16,10 +16,11 @@ class MainController extends Controller
     {
         $this->validate($request, ['json' => 'required']);
         $json = json_decode($request->input('json'), true);
-        if ($json == null || !array_key_exists('koordinatori', $json) || !array_key_exists('kraj', $json) ||  !array_key_exists('polozky', $json) || empty($json['koordinatori']) ||  empty($json['kraj']) || empty($json['polozky'])) return redirect('/');
+        if ($json == null || !array_key_exists('koordinatori', $json) || !array_key_exists('kraj', $json) ||  !array_key_exists('polozky', $json) ||  !array_key_exists('odberne misto', $json) || empty($json['koordinatori']) ||  empty($json['kraj']) || empty($json['polozky']) || empty($json['odberne misto'])) return redirect('/');
         foreach ($json['polozky'] as $item) {
             if ($item == null || !array_key_exists('organizace', $item) || !array_key_exists('polozka', $item) || !array_key_exists('mnozstvi', $item) || !array_key_exists('email', $item) || empty($item['organizace']) || empty($item['polozka']) || empty($item['mnozstvi']) || empty($item['email'])) return redirect('/');
         };
+        $_SESSION['rawJson'] = $json;
         return view('regions', [
             'json' => $json,
             'date' => date('j. n. Y'),
@@ -29,13 +30,11 @@ class MainController extends Controller
     public function sendRegions(Request $request)
     {
         $this->validate($request, [
-            'json' => 'required',
             'subjectRegions' => 'required',
             'topBodyRegions' => 'required',
             'bottomBodyRegions' => 'required',
-
         ]);
-        $json = json_decode($request->input('json'), true);
+        $rawJson = $_SESSION['rawJson'];
         $subject = $request->input('subjectRegions');
         $topBodyRegions = nl2br($request->input('topBodyRegions'));
         $bottomBodyRegions = nl2br($request->input('bottomBodyRegions'));
@@ -43,12 +42,12 @@ class MainController extends Controller
         $sortedJson = [];
 
         if ($request->input('send')) {
-            $to = implode(',', $json['koordinatori']);
+            $to = $rawJson['odberne misto']['email'];
             $headers =
                 "MIME-Version: 1.0\r\n" .
                 "Content-Type: text/html; charset=UTF-8\r\n" .
                 "Content-Transfer-Encoding: 8bit\r\n" .
-                "Bcc: distribuce@mzcr.cz\r\n" .
+                "Bcc: distribuce@mzcr.cz," . implode(',', $rawJson['koordinatori']) . "\r\n" .
                 'From: distribuce@mzcr.cz';
 
             $message = '<p>' . $topBodyRegions . '</p>
@@ -59,7 +58,7 @@ class MainController extends Controller
                             <th>Množství</th>
                         </thead>
                         <tbody>';
-            foreach ($json['polozky'] as $item) {
+            foreach ($rawJson['polozky'] as $item) {
                 $message .= '<tr>
 					<td>' . $item['organizace'] . '</td>
 					<td>' . $item['polozka'] . '</td>
@@ -71,10 +70,10 @@ class MainController extends Controller
            <p> ' . $bottomBodyRegions . '</p>';
 
             mail($to, $subject, $message, $headers, '-f distribuce@mzcr.cz');
-            $success = count($json['koordinatori']);
+            $success = count($rawJson['koordinatori']) + 1;
         }
 
-        foreach ($json['polozky'] as $item) {
+        foreach ($rawJson['polozky'] as $item) {
             if (!array_key_exists($item['email'], $sortedJson)) {
                 $sortedJson[$item['email']] = [
                     'organization' => $item['organizace'],
@@ -86,12 +85,12 @@ class MainController extends Controller
                 'amount' => $item['mnozstvi'],
             ];
         }
-
-
+        $_SESSION['sortedJson'] = $sortedJson;
         return view('organizations', [
             'json' => $sortedJson,
             'step' => 0,
-            'region' => $json['kraj'],
+            'region' => $rawJson['kraj'],
+            'om' => $rawJson['odberne misto'],
             'key' => array_keys($sortedJson)[0],
             'date' => date('j. n. Y'),
             'success' =>  $success,
@@ -101,28 +100,26 @@ class MainController extends Controller
     public function sendOrganization(Request $request)
     {
         $this->validate($request, [
-            'json' => 'required',
             'step' => 'required',
-            'region' => 'required',
             'subjectOrganization' => 'required',
             'topBodyRegions' => 'required',
             'bottomBodyRegions' => 'required',
         ]);
-        $json = json_decode($request->input('json'), true);
+        $sortedJson = $_SESSION['sortedJson'];
+        $rawJson = $_SESSION['rawJson'];
         $step = $request->input('step');
-        $region = $request->input('region');
         $subject = $request->input('subjectOrganization');
         $topBodyRegions = nl2br($request->input('topBodyRegions'));
         $bottomBodyRegions = nl2br($request->input('bottomBodyRegions'));
         $success = 0;
 
         if ($request->input('send')) {
-            $to = array_keys($json)[$step];
+            $to = array_keys($sortedJson)[$step];
             $headers =
                 "MIME-Version: 1.0\r\n" .
                 "Content-Type: text/html; charset=UTF-8\r\n" .
                 "Content-Transfer-Encoding: 8bit\r\n" .
-                "Bcc: distribuce@mzcr.cz\r\n" .
+                "Bcc: distribuce@mzcr.cz," . $rawJson['odberne misto']['email'] . "\r\n" .
                 'From: distribuce@mzcr.cz';
 
             $message = '<p>' . $topBodyRegions . '</p>
@@ -132,7 +129,7 @@ class MainController extends Controller
                             <th scope="col">Množství</th>
                         </thead>
                         <tbody>';
-            foreach ($json[array_keys($json)[$step]]['items'] as $item) {
+            foreach ($sortedJson[array_keys($sortedJson)[$step]]['items'] as $item) {
                 $message .= '<tr>
 					<td>' . $item['item'] . '</td>
 					<td>' . $item['amount'] . '</td>
@@ -146,15 +143,16 @@ class MainController extends Controller
         }
 
         $step++;
-        if ($step >= count($json)) {
+        if ($step >= count($sortedJson)) {
             return redirect('/finished?success=' . $success);
         }
 
         return view('organizations', [
-            'json' => $json,
+            'json' => $sortedJson,
             'step' => $step,
-            'region' => $region,
-            'key' => array_keys($json)[$step],
+            'region' => $rawJson['kraj'],
+            'om' => $rawJson['odberne misto'],
+            'key' => array_keys($sortedJson)[$step],
             'date' => date('j. n. Y'),
             'success' =>  $success,
         ]);

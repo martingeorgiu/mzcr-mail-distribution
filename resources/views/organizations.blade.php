@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-<h2>Krok 3: E-mail koordinátorům organizací</h2>
+<h2>Krok 3: E-mail koncovým odběratelům</h2>
 @include('alert', ['success' => $success])
 <h5>Organizace {{$step + 1}}/{{count($json)}}: {{$json[$key]['organization']}}</h5>
 <h5>Adresát: {{$key}}</h5>
@@ -11,15 +11,15 @@
 	<h4>Předmět</h4>
 	<div class="form-group">
 		<input name="subjectOrganization" type="text" class="form-control" id="subjectOrganization"
-			value="{{$json[$key]['organization']}}: distribuce OOP dne {{$date}}" required>
+			value="DISTRIBUCE OOP MZ ČR {{$date}}: {{$json[$key]['organization']}}" required>
 	</div>
 	<h4>Tělo e-mailu:</h4>
 	<div class="form-group">
 		<textarea name="topBodyRegions" class="form-control" id="topBodyRegions" rows="5"
 			placeholder="vrchní část textu" required>Vážení,
 
-z rozhodnutí Vlády ČR budou pro {{$region}} dne {{$date}} rozvezeny ochranné pomůcky. Počet OOP pro Vaší organizaci nejdete v níže uvedeném rozpisu:
-		</textarea>
+z rozhodnutí Vlády ČR obdrží {{$json[$key]['organization']}} dne {{$date}} osobní ochranné pomůcky (OOP) dle níže uvedeného rozpisu:
+	</textarea>
 	</div>
 	<div class="form-group">
 		<table class="table table-striped">
@@ -40,18 +40,22 @@ z rozhodnutí Vlády ČR budou pro {{$region}} dne {{$date}} rozvezeny ochranné
 	<div class="form-group">
 		<textarea name="bottomBodyRegions" class="form-control" id="bottomBodyRegions" rows="10"
 			placeholder="spodní část textu" required>
-Stran vyzvednutí zásilky prosím kontaktujte odběrové místo Vašeho kraje: JMÉNO, ČÍSLO, MAIL. Prosím o potvrzení
-doručení zásilky a zaslání scanu dodacího listu na adresu distribuce@mzcr.cz.
-Krajský koordinátor a odběrové místo byli o alokaci OOP pro Vaši instituci informováni.
+Rozvoz OOP probíhá během dnešního dne. Kontaktujte, prosím, odběrné místo stran předání uvedených OOP <span style="color:red">během zítřejšího dne</span>. Dnes pro Vás ještě nebude mít k dispozici informace o předání.
 
-Moc děkuji za spolupráci.
+Kontakt odběrného místa:
+{{$om['nazev']}}
+{{$om['kontakt']}}
+{{$om['misto']}}
+{{$om['email']}}
+
+Hodnoty jsou přibližné a mohou se lišit dle konkrétní velikosti balení. Prosím o potvrzení doručení zásilky a zaslání scanu dodacího listu odpovědí na tuto zprávu na adresu distribuce@mzcr.cz.
+
+Děkujeme za spolupráci.
 S pozdravem
 Distribuční tým OOP MZ ČR
 				</textarea>
 	</div>
-	<input type="hidden" name="json" value="{{json_encode($json)}}">
 	<input type="hidden" name="step" value="{{$step}}">
-	<input type="hidden" name="region" value="{{$region}}">
 	<div class="form-group clearfix">
 		<input type="submit" name="send" class="btn btn-primary float-left" value="Odeslat">
 		<input type="submit" name="skip" class="btn btn-secondary float-right" value="Přeskočit">
