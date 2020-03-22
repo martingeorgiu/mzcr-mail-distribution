@@ -2,6 +2,7 @@
 
 @section('content')
 <h2>Hotovo</h2>
+@include('alert', ['success' => $success])
 <h5>
 	vytvořil <a href="mailto:martin@georgiu.cz">martin@georgiu.cz</a>
 	z <a href="https://bindworks.eu/">bindworks.eu</a>
