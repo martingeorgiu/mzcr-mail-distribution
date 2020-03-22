@@ -39,20 +39,20 @@ class MainController extends Controller
         $subject = $request->input('subjectRegions');
         $topBodyRegions = nl2br($request->input('topBodyRegions'));
         $bottomBodyRegions = nl2br($request->input('bottomBodyRegions'));
-
+        $success = 0;
         $sortedJson = [];
 
         if ($request->input('send')) {
             $to = implode(',', $json['koordinatori']);
-            $headers = 
-                "MIME-Version: 1.0\r\n".
-                "Content-Type: text/plain; charset=UTF-8\r\n".
-                "Content-Transfer-Encoding: 8bit\r\n".
-                "Bcc: distribuce@mzcr.cz\r\n".
+            $headers =
+                "MIME-Version: 1.0\r\n" .
+                "Content-Type: text/html; charset=UTF-8\r\n" .
+                "Content-Transfer-Encoding: 8bit\r\n" .
+                "Bcc: distribuce@mzcr.cz\r\n" .
                 'From: distribuce@mzcr.cz';
 
             $message = '<p>' . $topBodyRegions . '</p>
-                <table>
+                <table class="table table-striped" cellspacing="0" border="1">
                         <thead>
                             <th>Příjemce</th>
                             <th>Položka</th>
@@ -71,6 +71,7 @@ class MainController extends Controller
            <p> ' . $bottomBodyRegions . '</p>';
 
             mail($to, $subject, $message, $headers, '-f distribuce@mzcr.cz');
+            $success = count($json['koordinatori']);
         }
 
         foreach ($json['polozky'] as $item) {
@@ -93,6 +94,7 @@ class MainController extends Controller
             'region' => $json['kraj'],
             'key' => array_keys($sortedJson)[0],
             'date' => date('j. n. Y'),
+            'success' =>  $success,
         ]);
     }
 
@@ -112,20 +114,19 @@ class MainController extends Controller
         $subject = $request->input('subjectOrganization');
         $topBodyRegions = nl2br($request->input('topBodyRegions'));
         $bottomBodyRegions = nl2br($request->input('bottomBodyRegions'));
-
-
+        $success = 0;
 
         if ($request->input('send')) {
             $to = array_keys($json)[$step];
-            $headers = 
-                "MIME-Version: 1.0\r\n".
-                "Content-Type: text/plain; charset=UTF-8\r\n".
-                "Content-Transfer-Encoding: 8bit\r\n".
-                "Bcc: distribuce@mzcr.cz\r\n".
+            $headers =
+                "MIME-Version: 1.0\r\n" .
+                "Content-Type: text/html; charset=UTF-8\r\n" .
+                "Content-Transfer-Encoding: 8bit\r\n" .
+                "Bcc: distribuce@mzcr.cz\r\n" .
                 'From: distribuce@mzcr.cz';
 
             $message = '<p>' . $topBodyRegions . '</p>
-                <table class="table table-striped">
+                <table class="table table-striped" cellspacing="0" border="1">
                         <thead>
                             <th scope="col">Položka</th>
                             <th scope="col">Množství</th>
@@ -141,11 +142,12 @@ class MainController extends Controller
                 </table>
             <p>' . $bottomBodyRegions . '</p>';
             mail($to, $subject, $message, $headers, '-f distribuce@mzcr.cz');
+            $success = 1;
         }
 
         $step++;
         if ($step >= count($json)) {
-            return redirect('/finished');
+            return redirect('/finished?success=' . $success);
         }
 
         return view('organizations', [
@@ -154,10 +156,13 @@ class MainController extends Controller
             'region' => $region,
             'key' => array_keys($json)[$step],
             'date' => date('j. n. Y'),
+            'success' =>  $success,
         ]);
     }
-    public function finished()
+    public function finished(Request $request)
     {
-        return view('finished');
+        return view('finished', [
+            'success' => $request->input('success'),
+        ]);
     }
 }

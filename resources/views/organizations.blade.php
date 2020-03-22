@@ -2,6 +2,7 @@
 
 @section('content')
 <h2>Krok 3: E-mail koordinátorům organizací</h2>
+@include('alert', ['success' => $success])
 <h5>Organizace {{$step + 1}}/{{count($json)}}: {{$json[$key]['organization']}}</h5>
 <h5>Adresát: {{$key}}</h5>
 
