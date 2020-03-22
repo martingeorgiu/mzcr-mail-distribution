@@ -30,6 +30,8 @@ z rozhodnutí Vlády ČR budou na odběrové místo {{$json['odberne misto']['na
 				<th scope="col">Příjemce</th>
 				<th scope="col">Položka</th>
 				<th scope="col">Množství</th>
+				<th scope="col">E-mail</th>
+				<th scope="col">Telefon</th>
 			</thead>
 			<tbody>
 				@foreach ($json['polozky'] as $item)
@@ -37,6 +39,8 @@ z rozhodnutí Vlády ČR budou na odběrové místo {{$json['odberne misto']['na
 					<td>{{$item['organizace']}}</td>
 					<td>{{$item['polozka']}}</td>
 					<td>{{$item['mnozstvi']}}</td>
+					<td>{{$item['email']}}</td>
+					<td>{{$item['telefon']}}</td>
 				</tr>
 				@endforeach
 			</tbody>

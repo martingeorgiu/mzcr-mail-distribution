@@ -56,13 +56,17 @@ class MainController extends Controller
                             <th>Příjemce</th>
                             <th>Položka</th>
                             <th>Množství</th>
+                            <th>E-mail</th>
+                            <th>Telefon</th>
                         </thead>
                         <tbody>';
             foreach ($rawJson['polozky'] as $item) {
                 $message .= '<tr>
 					<td>' . $item['organizace'] . '</td>
 					<td>' . $item['polozka'] . '</td>
-					<td>' . $item['mnozstvi'] . '</td>
+                    <td>' . $item['mnozstvi'] . '</td>
+                    <td>' . $item['email'] . '</td>
+                    <td>' . $item['telefon'] . '</td>
 				</tr>';
             }
             $message .= '</tbody>
