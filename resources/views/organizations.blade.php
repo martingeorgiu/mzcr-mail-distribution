@@ -40,7 +40,7 @@ z rozhodnutí Vlády ČR obdrží {{$json[$key]['organization']}} dne {{$date}} 
 	<div class="form-group">
 		<textarea name="bottomBodyRegions" class="form-control" id="bottomBodyRegions" rows="10"
 			placeholder="spodní část textu" required>
-Rozvoz OOP probíhá během dnešního dne. Kontaktujte, prosím, odběrné místo stran předání uvedených OOP <span style="color:red">během zítřejšího dne</span>. Dnes pro Vás ještě nebude mít k dispozici informace o předání.
+Rozvoz OOP probíhá během dnešního dopoledne. Kontaktujte, prosím, odběrné místo stran předání uvedených OOP <span style="color:red">během dnešního odpoledne po 16. hodině</span>. Nyní ještě nebude mít k dispozici informace o předání.
 
 Kontakt odběrného místa:
 {{$om['nazev']}}

@@ -49,7 +49,7 @@ z rozhodnutí Vlády ČR budou na odběrové místo {{$json['odberne misto']['na
 	<div class="form-group">
 		<textarea name="bottomBodyRegions" class="form-control" id="bottomBodyRegions" rows="10"
 			placeholder="spodní část textu" required>
-Za zásobování uvedených subjektů je zodpovědné Ministerstvo zdravotnictví. Uvedené subjekty byly požádány, aby Vás stran vyzvednutí OPP kontaktovaly <span style="color:red">během zítřejšího dne</span>.
+Za zásobování uvedených subjektů je zodpovědné Ministerstvo zdravotnictví. Uvedené subjekty byly požádány, aby Vás stran vyzvednutí OPP kontaktovaly <span style="color:red">během dnešního odpoledne po 16. hodině</span>.
 
 Hodnoty jsou přibližné a mohou se lišit dle konkrétní velikosti balení. Prosím o potvrzení doručení zásilky a zaslání scanu dodacího listu odpovědí na tuto zprávu na adresu distribuce@mzcr.cz.
 
