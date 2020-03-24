@@ -57,6 +57,7 @@ class MainController extends Controller
                             <th>Položka</th>
                             <th>Množství</th>
                             <th>E-mail</th>
+                            <th>Telefon</th>
                         </thead>
                         <tbody>';
             foreach ($rawJson['polozky'] as $item) {
@@ -65,6 +66,7 @@ class MainController extends Controller
 					<td>' . $item['polozka'] . '</td>
                     <td>' . $item['mnozstvi'] . '</td>
                     <td>' . $item['email'] . '</td>
+                    <td>' . isset($item['telefon']) ? $item['telefon'] : '' . '</td>
 				</tr>';
             }
             $message .= '</tbody>
@@ -79,6 +81,9 @@ class MainController extends Controller
             if (!array_key_exists($item['email'], $sortedJson)) {
                 $sortedJson[$item['email']] = [
                     'organization' => $item['organizace'],
+                    'copy' => isset($item['copy']) ? $item['copy'] : '',
+                    'tel' => isset($item['telefon']) ? $item['telefon'] : '',
+                    'signature' => isset($item['podpis']) ? $item['podpis'] : 'Distribuční tým OOP MZ ČR',
                     'items' => [],
                 ];
             }
@@ -120,7 +125,7 @@ class MainController extends Controller
             $headers =
                 "MIME-Version: 1.0\r\n" .
                 "Content-Type: text/html; charset=UTF-8\r\n" .
-                "Content-Transfer-Encoding: 8bit\r\n" .
+                "Content-Transfer-Encoding: 8bit\r\n" . (empty($sortedJson[$step]['copy']) ?: "Cc: " . $sortedJson[$step]['copy'] . "\r\n") .
                 "Bcc: distribuce@mzcr.cz," . $rawJson['odberne misto']['email'] . "\r\n" .
                 'From: distribuce@mzcr.cz';
 

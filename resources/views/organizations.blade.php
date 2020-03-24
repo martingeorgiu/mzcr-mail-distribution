@@ -52,7 +52,7 @@ Hodnoty jsou přibližné a mohou se lišit dle konkrétní velikosti balení. P
 
 Děkujeme za spolupráci.
 S pozdravem
-Distribuční tým OOP MZ ČR
+{{$json[$key]['signature']}}
 				</textarea>
 	</div>
 	<input type="hidden" name="step" value="{{$step}}">
