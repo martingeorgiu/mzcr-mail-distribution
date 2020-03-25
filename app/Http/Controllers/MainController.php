@@ -48,7 +48,7 @@ class MainController extends Controller
                 "Content-Type: text/html; charset=UTF-8\r\n" .
                 "Content-Transfer-Encoding: 8bit\r\n" .
                 "Bcc: distribuce@mzcr.cz" .
-                (!empty($rawJson['koordinatori']) ? ', '.implode(', ', $rawJson['koordinatori']) : '') .
+                (!empty($rawJson['koordinatori']) ? ', ' . implode(', ', $rawJson['koordinatori']) : '') .
                 "\r\n" .
                 'From: distribuce@mzcr.cz';
 
@@ -139,11 +139,9 @@ class MainController extends Controller
                 "MIME-Version: 1.0\r\n" .
                 "Content-Type: text/html; charset=UTF-8\r\n" .
                 "Content-Transfer-Encoding: 8bit\r\n" .
-                // TODO: Tento radek nize je spatne. Pole $sortedJson[$step] neobsahuje data. Promenna $step je ciselna, ale 
-                // $sortedJson neobsahuje ciselne indexy
-                //(empty($sortedJson[$step]['copy']) ? '' : "Cc: " . $sortedJson[$step]['copy'] . "\r\n") .
+                (empty($sortedJson[array_keys($sortedJson)[$step]]['copy']) ? '' : "Cc: " . $sortedJson[array_keys($sortedJson)[$step]]['copy'] . "\r\n") .
                 "Bcc: distribuce@mzcr.cz" .
-                (!empty($rawJson['odberne misto']['email']) ? ', '.$rawJson['odberne misto']['email'] : '') .
+                (!empty($rawJson['odberne misto']['email']) ? ', ' . $rawJson['odberne misto']['email'] : '') .
                 "\r\n" .
                 'From: distribuce@mzcr.cz';
 
