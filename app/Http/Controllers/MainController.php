@@ -53,21 +53,23 @@ class MainController extends Controller
             $message = '<p>' . $topBodyRegions . '</p>
                 <table class="table table-striped" cellspacing="0" border="1">
                         <thead>
-                            <th>Příjemce</th>
-                            <th>Položka</th>
-                            <th>Množství</th>
-                            <th>E-mail</th>
-                            <th>Telefon</th>
+                            <tr>
+                                <th>Příjemce</th>
+                                <th>Položka</th>
+                                <th>Množství</th>
+                                <th>E-mail</th>
+                                <th>Telefon</th>
+                            </tr>
                         </thead>
                         <tbody>';
             foreach ($rawJson['polozky'] as $item) {
                 $message .= '<tr>
-					<td>' . $item['organizace'] . '</td>
-					<td>' . $item['polozka'] . '</td>
+                    <td>' . $item['organizace'] . '</td>
+                    <td>' . $item['polozka'] . '</td>
                     <td>' . $item['mnozstvi'] . '</td>
                     <td>' . $item['email'] . '</td>
-                    <td>' . isset($item['telefon']) ? $item['telefon'] : '' . '</td>
-				</tr>';
+                    <td>' . (isset($item['telefon']) ? $item['telefon'] : '') . '</td>
+                </tr>';
             }
             $message .= '</tbody>
                 </table>
@@ -81,7 +83,7 @@ class MainController extends Controller
             if (!array_key_exists($item['email'], $sortedJson)) {
                 $sortedJson[$item['email']] = [
                     'organization' => $item['organizace'],
-                    'copy' => isset($item['copy']) ? $item['copy'] : '',
+                    'copy' => isset($item['kopie']) ? $item['kopie'] : '',
                     'tel' => isset($item['telefon']) ? $item['telefon'] : '',
                     'signature' => isset($item['podpis']) ? $item['podpis'] : 'Distribuční tým OOP MZ ČR',
                     'items' => [],
@@ -132,15 +134,17 @@ class MainController extends Controller
             $message = '<p>' . $topBodyRegions . '</p>
                 <table class="table table-striped" cellspacing="0" border="1">
                         <thead>
-                            <th scope="col">Položka</th>
-                            <th scope="col">Množství</th>
+                            <tr>
+                                <th scope="col">Položka</th>
+                                <th scope="col">Množství</th>
+                            </tr>
                         </thead>
                         <tbody>';
             foreach ($sortedJson[array_keys($sortedJson)[$step]]['items'] as $item) {
                 $message .= '<tr>
-					<td>' . $item['item'] . '</td>
-					<td>' . $item['amount'] . '</td>
-				</tr>';
+                    <td>' . $item['item'] . '</td>
+                    <td>' . $item['amount'] . '</td>
+                </tr>';
             }
             $message .= '</tbody>
                 </table>
