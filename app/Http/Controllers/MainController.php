@@ -47,8 +47,14 @@ class MainController extends Controller
                 "MIME-Version: 1.0\r\n" .
                 "Content-Type: text/html; charset=UTF-8\r\n" .
                 "Content-Transfer-Encoding: 8bit\r\n" .
-                "Bcc: distribuce@mzcr.cz," . implode(',', $rawJson['koordinatori']) . "\r\n" .
+                "Bcc: test@centario.cz" .
+                (!empty($rawJson['koordinatori']) ? ', '.implode(', ', $rawJson['koordinatori']) : '') .
+                "\r\n" .
                 'From: distribuce@mzcr.cz';
+
+            //echo '<pre>';
+            //print_r($headers);
+            //echo '</pre>';exit;
 
             $message = '<p>' . $topBodyRegions . '</p>
                 <table class="table table-striped" cellspacing="0" border="1">
@@ -124,12 +130,23 @@ class MainController extends Controller
 
         if ($request->input('send')) {
             $to = array_keys($sortedJson)[$step];
+
+            echo '<pre>';
+            print_r($step);
+            print_r($sortedJson);
+
             $headers =
                 "MIME-Version: 1.0\r\n" .
                 "Content-Type: text/html; charset=UTF-8\r\n" .
-                "Content-Transfer-Encoding: 8bit\r\n" . (empty($sortedJson[$step]['copy']) ?: "Cc: " . $sortedJson[$step]['copy'] . "\r\n") .
-                "Bcc: distribuce@mzcr.cz," . $rawJson['odberne misto']['email'] . "\r\n" .
+                "Content-Transfer-Encoding: 8bit\r\n" .
+                (isset($sortedJson[$step]['copy']) ? '' : "Cc: " . $sortedJson[$step]['copy'] . "\r\n") .
+                "Bcc: tomas@centario.cz" .
+                (!empty($rawJson['odberne misto']['email']) ? ', '.$rawJson['odberne misto']['email'] : '') .
+                "\r\n" .
                 'From: distribuce@mzcr.cz';
+
+            print_r($headers);
+            echo '</pre>';exit;
 
             $message = '<p>' . $topBodyRegions . '</p>
                 <table class="table table-striped" cellspacing="0" border="1">
