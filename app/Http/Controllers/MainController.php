@@ -81,7 +81,7 @@ class MainController extends Controller
             if (!array_key_exists($item['email'], $sortedJson)) {
                 $sortedJson[$item['email']] = [
                     'organization' => $item['organizace'],
-                    'copy' => isset($item['copy']) ? $item['copy'] : '',
+                    'copy' => isset($item['kopie']) ? $item['kopie'] : '',
                     'tel' => isset($item['telefon']) ? $item['telefon'] : '',
                     'signature' => isset($item['podpis']) ? $item['podpis'] : 'Distribuční tým OOP MZ ČR',
                     'items' => [],

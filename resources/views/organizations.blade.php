@@ -4,7 +4,11 @@
 <h2>Krok 3: E-mail koncovým odběratelům</h2>
 @include('alert', ['success' => $success])
 <h5>Organizace {{$step + 1}}/{{count($json)}}: {{$json[$key]['organization']}}</h5>
-<h5>Adresát: {{$key}}</h5>
+<h5>Adresát: {{$key}}
+	@if (!empty($json[$key]['copy']))
+	; Cc: {{$json[$key]['copy']}}
+	@endif
+</h5>
 
 
 <form method="POST" action="/send-organization">

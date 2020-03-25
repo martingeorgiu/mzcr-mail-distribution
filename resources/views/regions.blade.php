@@ -4,9 +4,13 @@
 <h2>Krok 2: E-mail odběrnému místu</h2>
 <h4>Adresáti</h4>
 <ul>
+	@if (!empty($json['odberne misto']['email']))
 	<li>{{$json['odberne misto']['email']}}</li>
+	@endif
 	@foreach ($json['koordinatori'] as $coordinator)
+	@if ($coordinator !== $json['odberne misto']['email'] && !empty($coordinator))
 	<li>{{ $coordinator }}</li>
+	@endif
 	@endforeach
 </ul>
 
