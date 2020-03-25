@@ -52,6 +52,10 @@ class MainController extends Controller
                 "\r\n" .
                 'From: distribuce@mzcr.cz';
 
+            //echo '<pre>';
+            //print_r($headers);
+            //echo '</pre>';exit;
+
             $message = '<p>' . $topBodyRegions . '</p>
                 <table class="table table-striped" cellspacing="0" border="1">
                         <thead>
