@@ -18,7 +18,7 @@ class MainController extends Controller
         $json = json_decode($request->input('json'), true);
         if ($json == null || !array_key_exists('koordinatori', $json) || !array_key_exists('kraj', $json) ||  !array_key_exists('polozky', $json) ||  !array_key_exists('odberne misto', $json) || empty($json['koordinatori']) ||  empty($json['kraj']) || empty($json['polozky']) || empty($json['odberne misto'])) return redirect('/');
         foreach ($json['polozky'] as $item) {
-            if ($item == null || !array_key_exists('organizace', $item) || !array_key_exists('polozka', $item) || !array_key_exists('mnozstvi', $item) || !array_key_exists('email', $item) || empty($item['organizace']) || empty($item['polozka']) || empty($item['mnozstvi']) || empty($item['email'])) return redirect('/');
+            if ($item == null || !array_key_exists('dodatek', $item) || !array_key_exists('organizace', $item) || !array_key_exists('polozka', $item) || !array_key_exists('mnozstvi', $item) || !array_key_exists('email', $item) || empty($item['organizace']) || empty($item['polozka']) || empty($item['mnozstvi']) || empty($item['email'])) return redirect('/');
         };
         $_SESSION['rawJson'] = $json;
         return view('regions', [
@@ -88,6 +88,7 @@ class MainController extends Controller
         foreach ($rawJson['polozky'] as $item) {
             if (!array_key_exists($item['email'], $sortedJson)) {
                 $sortedJson[$item['email']] = [
+                    'appendix' => $item['dodatek'],
                     'organization' => $item['organizace'],
                     'copy' => isset($item['kopie']) ? $item['kopie'] : '',
                     'tel' => isset($item['telefon']) ? $item['telefon'] : '',

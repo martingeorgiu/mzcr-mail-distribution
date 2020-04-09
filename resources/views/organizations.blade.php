@@ -54,6 +54,20 @@ Kontakt odběrného místa:
 
 Hodnoty jsou přibližné a mohou se lišit dle konkrétní velikosti balení. Prosím o potvrzení doručení zásilky a zaslání scanu dodacího listu odpovědí na tuto zprávu na adresu distribuce@mzcr.cz.
 
+@if ($json[$key]['appendix'] == "1")
+Dovolte mi zdůraznit, že výše uvedené OOP jsou určeny primárně pro určitou část nemocnice – laboratoř, která provádí
+testování vzorků na COVID19 a tu část nemocnice, kde jsou případně hospitalizováni pacienti s potvrzenou nákazou
+COVID19. Za zásobování Vaší organizace jako celku je nadále zodpovědné Ministerstvo vnitra, respektive kraj.
+@elseif($json[$key]['appendix'] == "2")
+Dovolte mi zdůraznit, že výše uvedené OOP jsou určeny primárně pro určitou část nemocnice, kde jsou v současné době
+hospitalizováni pacienti s potvrzenou nákazou COVID19. Za zásobování Vaší organizace jako celku je nadále zodpovědné
+Ministerstvo vnitra, respektive kraj.
+@elseif($json[$key]['appendix'] == "3")
+Dovolte mi zdůraznit, že výše uvedené OOP jsou určeny primárně pro určitou část nemocnice, kde jsou v současné době
+hospitalizováni pacienti s potvrzenou nákazou COVID19. Za zásobování Vaší organizace jako celku je nadále zodpovědné
+Ministerstvo vnitra, respektive kraj.
+@endif
+
 Děkujeme za spolupráci.
 S pozdravem
 {{$json[$key]['signature']}}
